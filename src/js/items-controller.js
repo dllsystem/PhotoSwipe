@@ -135,6 +135,7 @@ var _getItemAt,
 			var div = framework.createEl('pswp__img', 'div');
 			div.style.backgroundImage = 'url(' + item.src + ')';
 			div.style.backgroundSize = 'cover';
+			div.appendChild(img);  
 
 			var watermark = framework.createEl('watermark', 'div');
 			watermark.style.position = 'absolute';
