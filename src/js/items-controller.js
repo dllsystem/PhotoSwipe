@@ -132,12 +132,12 @@ var _getItemAt,
 			item.imageAppended = true;
 			_setImageSize(item, img, (item === self.currItem && _renderMaxResolution) );
 			
-			var div = framework.createEl('pswp__img', 'div');
-			div.style.backgroundImage = 'url(' + item.src + ')';
-			div.style.backgroundSize = 'cover';
+			var div = framework.createEl('dotpix-base', 'div');
+			//div.style.backgroundImage = 'url(' + item.src + ')';
+			//div.style.backgroundSize = 'cover';
 			div.appendChild(img);  
 
-			var watermark = framework.createEl('watermark', 'div');
+			var watermark = framework.createEl('dotpix-watermark', 'div');
 			watermark.style.position = 'absolute';
 			watermark.style.left = 0;
 			watermark.style.top = 0;
