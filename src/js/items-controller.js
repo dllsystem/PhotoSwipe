@@ -151,9 +151,9 @@ var _getItemAt,
 			//div.appendChild(watermark);  
 			//baseDiv.appendChild(div);
 
-
 			baseDiv.appendChild(img);
-			baseDiv.appendChild(watermark);
+
+			//baseDiv.appendChild(watermark);
 			
 			//baseDiv.appendChild(img);
 
