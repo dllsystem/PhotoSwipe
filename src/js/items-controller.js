@@ -177,14 +177,15 @@ var _getItemAt,
 		div.style.backgroundSize = 'cover';
 
 		var watermark = framework.createEl('watermark', 'div');
-		watermark.style.backgroundImage = 'url(https://upload.wikimedia.org/wikipedia/commons/b/be/Lineage_OS_Logo.png)';
-		watermark.style.backgroundSize = '100%';
-		watermark.backgroundPosition= 'center';
 		watermark.style.position = 'absolute';
 		watermark.style.left = 0;
 		watermark.style.top = 0;
 		watermark.style.width = '100%';
 		watermark.style.height = '100%';
+		watermark.style.backgroundImage = 'url(https://upload.wikimedia.org/wikipedia/commons/b/be/Lineage_OS_Logo.png)';
+		watermark.style.backgroundSize = '100%';
+		watermark.style.backgroundPosition = 'center';
+		watermark.style.pointerEvents = 'none';
 
 		div.appendChild(watermark);  
 
