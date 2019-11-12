@@ -2823,10 +2823,10 @@ var _getItemAt,
 			item.imageAppended = true;
 			_setImageSize(item, img, (item === self.currItem && _renderMaxResolution) );
 			
-			var div = framework.createEl('dotpix-base', 'div');
+			//var div = framework.createEl('dotpix-base', 'div');
 			//div.style.backgroundImage = 'url(' + item.src + ')';
 			//div.style.backgroundSize = 'cover';
-			div.appendChild(img);  
+			//div.appendChild(img);  
 
 			var watermark = framework.createEl('dotpix-watermark', 'div');
 			watermark.style.position = 'absolute';
@@ -2839,9 +2839,12 @@ var _getItemAt,
 			watermark.style.backgroundPosition = 'center';
 			watermark.style.pointerEvents = 'none';
 
-			div.appendChild(watermark);  
+			//div.appendChild(watermark);  
+			//baseDiv.appendChild(div);
 
-			baseDiv.appendChild(div);
+
+			baseDiv.appendChild(img);
+			baseDiv.appendChild(watermark);
 			
 			//baseDiv.appendChild(img);
 
