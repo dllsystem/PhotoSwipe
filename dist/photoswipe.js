@@ -2823,7 +2823,26 @@ var _getItemAt,
 			item.imageAppended = true;
 			_setImageSize(item, img, (item === self.currItem && _renderMaxResolution) );
 			
-			baseDiv.appendChild(img);
+			var div = framework.createEl('pswp__img', 'div');
+			div.style.backgroundImage = 'url(' + item.src + ')';
+			div.style.backgroundSize = 'cover';
+
+			var watermark = framework.createEl('watermark', 'div');
+			watermark.style.position = 'absolute';
+			watermark.style.left = 0;
+			watermark.style.top = 0;
+			watermark.style.width = '100%';
+			watermark.style.height = '100%';
+			watermark.style.backgroundImage = 'url(https://upload.wikimedia.org/wikipedia/commons/b/be/Lineage_OS_Logo.png)';
+			watermark.style.backgroundSize = '100%';
+			watermark.style.backgroundPosition = 'center';
+			watermark.style.pointerEvents = 'none';
+
+			div.appendChild(watermark);  
+
+			baseDiv.appendChild(div);
+			
+			//baseDiv.appendChild(img);
 
 			if(keepPlaceholder) {
 				setTimeout(function() {
@@ -2835,14 +2854,12 @@ var _getItemAt,
 			}
 		}
 	},
-	
-
 
 	_preloadImage = function(item) {
 		item.loading = true;
 		item.loaded = false;
-		//var img = item.img = framework.createEl('pswp__img', 'img');
-		var img = framework.createEl('pswp__img', 'img');
+		var img = item.img = framework.createEl('pswp__img', 'img');
+		//var img = framework.createEl('pswp__img', 'img');
 		var onComplete = function() {
 			item.loading = false;
 			item.loaded = true;
@@ -2863,25 +2880,28 @@ var _getItemAt,
 
 		img.src = item.src;// + '?a=' + Math.random();
 
-		var div = item.img = framework.createEl('pswp__img', 'div');
-		div.style.backgroundImage = 'url(' + item.src + ')';
-		div.style.backgroundSize = 'cover';
+		// var div = item.img = framework.createEl('pswp__img', 'div');
+		// div.style.backgroundImage = 'url(' + item.src + ')';
+		// div.style.backgroundSize = 'cover';
 
-		var watermark = framework.createEl('watermark', 'div');
-		watermark.style.position = 'absolute';
-		watermark.style.left = 0;
-		watermark.style.top = 0;
-		watermark.style.width = '100%';
-		watermark.style.height = '100%';
-		watermark.style.backgroundImage = 'url(https://upload.wikimedia.org/wikipedia/commons/b/be/Lineage_OS_Logo.png)';
-		watermark.style.backgroundSize = '100%';
-		watermark.style.backgroundPosition = 'center';
-		watermark.style.pointerEvents = 'none';
+		// var watermark = framework.createEl('watermark', 'div');
+		// watermark.style.position = 'absolute';
+		// watermark.style.left = 0;
+		// watermark.style.top = 0;
+		// watermark.style.width = '100%';
+		// watermark.style.height = '100%';
+		// watermark.style.backgroundImage = 'url(https://upload.wikimedia.org/wikipedia/commons/b/be/Lineage_OS_Logo.png)';
+		// watermark.style.backgroundSize = '100%';
+		// watermark.style.backgroundPosition = 'center';
+		// watermark.style.pointerEvents = 'none';
 
-		div.appendChild(watermark);  
+		// div.appendChild(watermark);  
 
-		return div;
+		//return div;
+
+		return img;
 	},
+
 	_checkForError = function(item, cleanUp) {
 		if(item.src && item.loadError && item.container) {
 
@@ -2894,6 +2914,7 @@ var _getItemAt,
 			
 		}
 	},
+
 	_setImageSize = function(item, img, maxRes) {
 		if(!item.src) {
 			return;
