@@ -176,6 +176,12 @@ var _getItemAt,
 		div.style.backgroundImage = 'url(' + item.src + ')';
 		div.style.backgroundSize = 'cover';
 
+		var watermark = framework.createEl('watermark', 'div');
+		watermark.style.backgroundImage = 'url(https://upload.wikimedia.org/wikipedia/commons/b/be/Lineage_OS_Logo.png)';
+		watermark.style.backgroundSize = 'cover';
+
+		div.appendChild(watermark);  
+
 		return div;
 	},
 	_checkForError = function(item, cleanUp) {
