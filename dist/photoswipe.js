@@ -2841,7 +2841,8 @@ var _getItemAt,
 	_preloadImage = function(item) {
 		item.loading = true;
 		item.loaded = false;
-		var img = item.img = framework.createEl('pswp__img', 'img');
+		//var img = item.img = framework.createEl('pswp__img', 'img');
+		var img = framework.createEl('pswp__img', 'img');
 		var onComplete = function() {
 			item.loading = false;
 			item.loaded = true;
@@ -2862,7 +2863,11 @@ var _getItemAt,
 
 		img.src = item.src;// + '?a=' + Math.random();
 
-		return img;
+		var div = item.img = framework.createEl('pswp__img', 'div');
+		div.style.backgroundImage = 'url(' + item.src + ')';
+		div.style.backgroundSize = 'cover';
+
+		return div;
 	},
 	_checkForError = function(item, cleanUp) {
 		if(item.src && item.loadError && item.container) {
