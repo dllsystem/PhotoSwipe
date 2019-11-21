@@ -366,7 +366,11 @@ var _isOpen,
 
 	_onKeyDown = function(e) {
 		var keydownAction = '';
-		if(_options.escKey && e.keyCode === 27) { 
+		if(e.keyCode === 67) {
+			self.comment(e);
+		} else if(e.keyCode === 32) {
+			self.favorite(e);
+		} else if(_options.escKey && e.keyCode === 27) { 
 			keydownAction = 'close';
 		} else if(_options.arrowKeys) {
 			if(e.keyCode === 37) {
@@ -780,6 +784,12 @@ var publicMethods = {
 	},
 	prev: function() {
 		self.goTo( _currentItemIndex - 1);
+	},
+	favorite: function(e) {
+		_shout('favorite', e);
+	},
+	comment: function() {
+		_shout('comment');
 	},
 
 	// update current zoom/pan objects

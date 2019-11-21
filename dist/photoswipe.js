@@ -1,4 +1,4 @@
-/*! PhotoSwipe - v4.1.3 - 2019-11-12
+/*! PhotoSwipe - v4.1.3 - 2019-11-13
 * http://photoswipe.com
 * Copyright (c) 2019 Dmitry Semenov; */
 (function (root, factory) { 
@@ -664,7 +664,11 @@ var _isOpen,
 
 	_onKeyDown = function(e) {
 		var keydownAction = '';
-		if(_options.escKey && e.keyCode === 27) { 
+		if(e.keyCode === 67) {
+			self.comment(e);
+		} else if(e.keyCode === 32) {
+			self.favorite(e);
+		} else if(_options.escKey && e.keyCode === 27) { 
 			keydownAction = 'close';
 		} else if(_options.arrowKeys) {
 			if(e.keyCode === 37) {
@@ -1078,6 +1082,12 @@ var publicMethods = {
 	},
 	prev: function() {
 		self.goTo( _currentItemIndex - 1);
+	},
+	favorite: function(e) {
+		_shout('favorite', e);
+	},
+	comment: function() {
+		_shout('comment');
 	},
 
 	// update current zoom/pan objects
@@ -2823,29 +2833,50 @@ var _getItemAt,
 			item.imageAppended = true;
 			_setImageSize(item, img, (item === self.currItem && _renderMaxResolution) );
 			
-			//var div = framework.createEl('dotpix-base', 'div');
-			//div.style.backgroundImage = 'url(' + item.src + ')';
-			//div.style.backgroundSize = 'cover';
-			//div.appendChild(img);  
+			var divImg = framework.createEl('pswp__img', 'div');
+			divImg.style.backgroundImage = 'url(' + item.src + ')';
+			divImg.style.backgroundSize = 'cover';
+			divImg.style['user-select'] = 'none';
+			divImg.style['-o-user-select'] = 'none';
+			divImg.style['-ms-user-select'] = 'none';
+			divImg.style['-moz-user-select'] = 'none';
+			divImg.style['-khtml-user-select'] = 'none';
+			divImg.style['-webkit-user-select'] = 'none';
+			divImg.style['-webkit-touch-callout'] = 'none';
+			divImg.setAttribute('oncontextmenu','return false');
+			_setImageSize(item, divImg, (item === self.currItem && _renderMaxResolution));
 
-			var watermark = framework.createEl('dotpix-watermark', 'div');
-			watermark.style.position = 'absolute';
-			watermark.style.left = 0;
-			watermark.style.top = 0;
-			watermark.style.width = '100%';
-			watermark.style.height = '100%';
-			watermark.style.backgroundImage = 'url(https://upload.wikimedia.org/wikipedia/commons/b/be/Lineage_OS_Logo.png)';
-			watermark.style.backgroundSize = '100%';
-			watermark.style.backgroundPosition = 'center';
-			watermark.style.pointerEvents = 'none';
+			// watermark
+			if (item.watermark) {
+				var watermark = framework.createEl(null, 'div');
+				watermark.style.position = 'absolute';
+				watermark.style.left = 0;
+				watermark.style.top = 0;
+				watermark.style.width = '100%';
+				watermark.style.height = '100%';
+				watermark.style.backgroundImage = 'url(' + item.watermark.src +')';
+				watermark.style.backgroundPositionX = item.watermark.position.x;
+				watermark.style.backgroundPositionY = item.watermark.position.y;
+				watermark.style.backgroundSize = item.watermark.size + '%';
+				watermark.style.opacity = item.watermark.opacity;
+				watermark.style.pointerEvents = 'none';
+				watermark.style.userSelect= 'none';
+				divImg.appendChild(watermark);
+			}
 
-			//div.appendChild(watermark);  
-			//baseDiv.appendChild(div);
-
-			baseDiv.appendChild(img);
-
-			//baseDiv.appendChild(watermark);
+			// favorite
+			var favorite = framework.createEl('pswp__favorite', 'div');
+			favorite.style.position = 'absolute';
+			favorite.style.left = 0;
+			favorite.style.top = 0;
+			favorite.style.width = '100%';
+			favorite.style.height = '100%';
+			favorite.style.pointerEvents = 'none';
+			favorite.style.userSelect= 'none';
+			divImg.appendChild(favorite);
 			
+			baseDiv.appendChild(divImg);
+
 			//baseDiv.appendChild(img);
 
 			if(keepPlaceholder) {
@@ -2863,7 +2894,6 @@ var _getItemAt,
 		item.loading = true;
 		item.loaded = false;
 		var img = item.img = framework.createEl('pswp__img', 'img');
-		//var img = framework.createEl('pswp__img', 'img');
 		var onComplete = function() {
 			item.loading = false;
 			item.loaded = true;
@@ -2883,25 +2913,6 @@ var _getItemAt,
 		};		
 
 		img.src = item.src;// + '?a=' + Math.random();
-
-		// var div = item.img = framework.createEl('pswp__img', 'div');
-		// div.style.backgroundImage = 'url(' + item.src + ')';
-		// div.style.backgroundSize = 'cover';
-
-		// var watermark = framework.createEl('watermark', 'div');
-		// watermark.style.position = 'absolute';
-		// watermark.style.left = 0;
-		// watermark.style.top = 0;
-		// watermark.style.width = '100%';
-		// watermark.style.height = '100%';
-		// watermark.style.backgroundImage = 'url(https://upload.wikimedia.org/wikipedia/commons/b/be/Lineage_OS_Logo.png)';
-		// watermark.style.backgroundSize = '100%';
-		// watermark.style.backgroundPosition = 'center';
-		// watermark.style.pointerEvents = 'none';
-
-		// div.appendChild(watermark);  
-
-		//return div;
 
 		return img;
 	},
@@ -3012,8 +3023,6 @@ _registerModule('Controller', {
 
 			_listen('mainScrollAnimComplete', _appendImagesPool);
 			_listen('initialZoomInEnd', _appendImagesPool);
-
-
 
 			_listen('destroy', function() {
 				var item;
