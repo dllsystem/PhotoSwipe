@@ -145,21 +145,34 @@ var _getItemAt,
 			divImg.setAttribute('oncontextmenu','return false');
 			_setImageSize(item, divImg, (item === self.currItem && _renderMaxResolution));
 
-			// watermark
+
+			// -- Watermark --
 			if (item.watermark) {
+				
+				var topBottom = item.watermark.margin;
+				var leftRight = item.watermark.margin;
+
+				if (item.w > item.h) {
+					topBottom = item.watermark.margin * (item.w / item.h);
+				} else {
+					leftRight = item.watermark.margin * (item.h / item.w);
+				}
+
 				var watermark = framework.createEl(null, 'div');
+				watermark.style.display = 'block';
 				watermark.style.position = 'absolute';
-				watermark.style.left = 0;
-				watermark.style.top = 0;
-				watermark.style.width = '100%';
-				watermark.style.height = '100%';
+				watermark.style.left = leftRight +'%';
+				watermark.style.top = topBottom + '%';
+				watermark.style.right = leftRight + '%';
+				watermark.style.bottom = topBottom + '%';
 				watermark.style.backgroundImage = 'url(' + item.watermark.src +')';
 				watermark.style.backgroundPositionX = item.watermark.position.x;
 				watermark.style.backgroundPositionY = item.watermark.position.y;
 				watermark.style.backgroundSize = item.watermark.size + '%';
 				watermark.style.opacity = item.watermark.opacity;
 				watermark.style.pointerEvents = 'none';
-				watermark.style.userSelect= 'none';
+				watermark.style.userSelect= 'none'; 
+
 				divImg.appendChild(watermark);
 			}
 
